@@ -8,7 +8,7 @@ from tqdm import tqdm
 # 读取文件
 def read_and_process(path):
     list_data = []
-    with open(path, encoding='utf-8') as F:
+    with open(path, encoding='UTF-8') as F:
         for line in F:
             line = json.loads(line)
             text = line['text']

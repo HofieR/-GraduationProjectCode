@@ -3,6 +3,7 @@ from utils import *
 from train import *
 import dill
 
+print(torch.cuda.is_available())
 config = Config()
 train_iter, dev_iter, test_iter = create_dataloader(config)
 model = create_model(config)

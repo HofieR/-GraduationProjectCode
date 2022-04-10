@@ -12,6 +12,8 @@ def predict(model, SRC, LABEL, inputs):
     model.eval()
     res = itemgetter(*inputs)(SRC.vocab.stoi)
     res = torch.tensor(res).unsqueeze(0)
+    device = torch.device('cuda:0')  # 假如我使用的GPU为cuda:0
+    res = res.to(device)  # 将tensor转移到cuda上
     answers = model.decode(res)
 
     extracted_entities = extract(answers[0], LABEL.vocab.itos)
@@ -97,7 +99,7 @@ if __name__ == '__main__':
 
     dic = torch.load('bilstm_crf.h5', map_location=lambda storage, loc: storage)
     model.load_state_dict(dic)
-    inputs = '我在北航当校长'
+    inputs = '一种螺旋纹火管的常压热水锅炉'
 
     res = predict(model, config.SRC, config.LABEL, inputs)
     print(res)

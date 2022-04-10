@@ -7,9 +7,9 @@ class Config:
         self.SRC = None
         self.LABEL = None
 
-        self.train_path = './input/train.json'
-        self.dev_path = './input/dev.json'
-        self.test_path = './input/test.json'
+        self.train_path = './input/train2.json'
+        self.dev_path = './input/dev2.json'
+        self.test_path = './input/test2.json'
         abspath = os.path.abspath('')
 
         self.fix_length = 50

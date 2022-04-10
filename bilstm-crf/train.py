@@ -33,10 +33,10 @@ def train_single_epoch(model, train_iter, valid_iter, optimizer, best_acc, epoch
         epoch_count += inputs.shape[0]
         if index % 50 == 0:
             acc, matrix = eval(model, valid_iter, return_matrix=False)
+            print('epoch:{},index:{},acc:{:.4f},train loss:{:.4f}'.format(epoch, index, acc, loss.item()))
             if acc > best_acc:
                 best_acc = acc
                 torch.save(model.state_dict(), model.name + '.h5')
-                print('epoch:{},index:{},acc:{:.4f},train loss:{:.4f}'.format(epoch, index, acc,loss.item()))
 
     return epoch_loss / epoch_count, best_acc
 

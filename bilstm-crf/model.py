@@ -1,5 +1,6 @@
 import torch.nn.functional as F  # pytorch 激活函数的类
 from torch import nn, optim  # 构建模型和优化器
+from torch.nn import LayerNorm
 from torchcrf import CRF
 
 
@@ -21,6 +22,7 @@ class BilstmCrf(nn.Module):
                             dropout=dropout)
 
         output_size = len(LABEL.vocab)
+
         self.fc = nn.Linear(hidden_size * 2, output_size)
 
         self.crf = CRF(output_size, batch_first=True)
