@@ -1,8 +1,6 @@
 from xlrd import open_workbook
 import os
 
-#{"text": "0000000", "label": {"keyword": {"1111": [[0, 2]], "2222": [[9, 13]]}}}
-
 
 def findAllIndex(str_, a):
     index_list = []
