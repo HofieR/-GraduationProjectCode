@@ -99,7 +99,7 @@ if __name__ == '__main__':
 
     dic = torch.load('bilstm_crf.h5', map_location=lambda storage, loc: storage)
     model.load_state_dict(dic)
-    inputs = "荆芥2～4份，防风2～3份，麻黄2～3份，人参0.5～1份，苍耳子1～3份，陈皮1～2份，川芎1～2份，茯苓1～2份，白芷0.5～1份，桂枝1～3份，当归1～3份，红花1～2份，大黄0.5～1份，板蓝根1～3份。"
+    inputs = "本发明涉及一种激光光纤CCD光干涉瓦斯浓度检测系统，主要包括带尾纤的半导体激光器、多模石英光纤、光干涉瓦斯浓度传感器、CCD图像传感器，图像采集卡及计算机。"
 
 
     res = predict(model, config.SRC, config.LABEL, inputs)
