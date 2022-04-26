@@ -67,7 +67,8 @@ def processDataWithoutLabel(outFile, textKeywordsSet):
         outFile.write(jsonText)
     outFile.close()
 
-if __name__ == '__main__':
+
+def main():
     xlsFileTrain = open_workbook(r'train_data/data_native/train.xls')
     xlsFileDev = open_workbook(r'train_data/data_native/dev.xls')
     xlsFileTest = open_workbook(r'train_data/data_native/test.xls')
@@ -103,3 +104,7 @@ if __name__ == '__main__':
     processDataWithLabel(devSummaryFile, SummaryKeywordsSetDev)
     processDataWithoutLabel(testTitleFile, titleKeywordsSetTest)
     processDataWithoutLabel(testSummaryFile, SummaryKeywordsSetTest)
+
+
+if __name__ == '__main__':
+    main()
