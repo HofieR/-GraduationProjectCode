@@ -1,22 +1,25 @@
 import torch
 import numpy as np
 from model import *
+from tensorboardX import SummaryWriter
 
 
-def create_model(config):
+def createModel(config):
     return BilstmCrf(config).to(config.device)
 
 
 def train(model, train_iter, valid_iter, optimizer, epochs,scheduler):
     best_acc = 0
 
+    writer = SummaryWriter("log")
     for epoch in range(epochs):
-        loss, best_acc = train_single_epoch(model, train_iter, valid_iter, optimizer, best_acc, epoch)
+        loss, best_acc = trainSingle(model, train_iter, valid_iter, optimizer, best_acc, epoch)
+        writer.add_scalar("bilstm-crf", loss, epoch)
         scheduler.step()
+    writer.close()
 
 
-
-def train_single_epoch(model, train_iter, valid_iter, optimizer, best_acc, epoch):
+def trainSingle(model, train_iter, valid_iter, optimizer, best_acc, epoch):
     epoch_loss = 0
     epoch_count = 0
 
@@ -24,7 +27,7 @@ def train_single_epoch(model, train_iter, valid_iter, optimizer, best_acc, epoch
         model.train()
         inputs = inputs.permute(1, 0)
         label = label.permute(1, 0)
-        loss = model.compute_loss(inputs, label)
+        loss = model.computeLoss(inputs, label)
         optimizer.zero_grad()
 
         loss.backward()

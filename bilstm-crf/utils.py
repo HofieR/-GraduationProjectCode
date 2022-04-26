@@ -6,18 +6,21 @@ from tqdm import tqdm
 
 
 # 读取文件
-def read_and_process(path):
+def readAndProcess(path):
     list_data = []
     with open(path, encoding='UTF-8') as F:
         for line in F:
-            line = json.loads(line)
+            try:
+                line = json.loads(line)
+            except ValueError:
+                continue
             text = line['text']
             if not line.get('label'):
                 text = list(text)
                 label = len(text) * ['O']
             else:
                 label = line['label']
-                text, label = transform_sample(text, label)
+                text, label = transformSample(text, label)
             list_data.append((text, label))
     return list_data
 
@@ -38,7 +41,7 @@ class MyDataset(data.Dataset):
         super().__init__(lists, fields)
 
 
-def transform_sample(text, label):
+def transformSample(text, label):
     text = list(text)
     count = len(text)
     processed_label = ['O'] * count
@@ -62,7 +65,7 @@ def transform_sample(text, label):
     return text, processed_label
 
 
-def create_dataset(data_list, config, is_train=True):
+def createDataset(data_list, config, is_train=True):
     if is_train:
         SRC = Field(tokenize=lambda x: x, fix_length=config.fix_length)
         LABEL = Field(tokenize=lambda x: x, fix_length=config.fix_length)  # 针对文本分类的类别标签
@@ -75,15 +78,15 @@ def create_dataset(data_list, config, is_train=True):
     return MyDataset(data_list, SRC, LABEL), SRC, LABEL
 
 
-def built_iter(dataset, config):
+def builtIter(dataset, config):
     return data.BucketIterator(dataset=dataset, batch_size=config.batch_size,
                                shuffle=True, sort_key=lambda x: len(x.text), sort_within_batch=False, repeat=False,device=config.device)
 
 
-def create_dataloader(config):
-    train_data_list = read_and_process(config.train_path)
-    dev_data_list = read_and_process(config.dev_path)
-    test_data_list = read_and_process(config.test_path)
+def createDataloader(config):
+    train_data_list = readAndProcess(config.train_path)
+    dev_data_list = readAndProcess(config.dev_path)
+    test_data_list = readAndProcess(config.test_path)
 
     SRC = Field(tokenize=lambda x: x, fix_length=config.fix_length)
     LABEL = Field(tokenize=lambda x: x, fix_length=config.fix_length)
@@ -102,7 +105,7 @@ def create_dataloader(config):
     config.SRC = SRC
     config.LABEL = LABEL
 
-    train_iter, dev_iter, test_iter = map(built_iter,
+    train_iter, dev_iter, test_iter = map(builtIter,
                                           [train_dataset, dev_dataset, test_dataset], [config] * 3)
 
     return train_iter, dev_iter, test_iter

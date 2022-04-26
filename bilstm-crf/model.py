@@ -33,7 +33,7 @@ class BilstmCrf(nn.Module):
         out = self.fc(out)
         return out
 
-    def compute_loss(self, x, y):
+    def computeLoss(self, x, y):
         out = self.forward(x)
         loss = -self.crf(out, y)
         return loss
