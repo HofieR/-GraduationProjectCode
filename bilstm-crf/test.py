@@ -40,10 +40,14 @@ def createEntityToIndex(config):
     return map
 
 
-if __name__ == '__main__':
+def main():
     config = Config()
     train_iter, dev_iter, test_iter = createDataloader(config)
     model = createModel(config)
     model.load_state_dict(torch.load(config.model_path))
     acc, df = test(model, dev_iter, config)
     print(df)
+
+
+if __name__ == '__main__':
+    main()
