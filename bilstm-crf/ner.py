@@ -1,4 +1,5 @@
 import os
+import re
 from operator import itemgetter
 from model import BilstmCrf
 from config import Config
@@ -97,17 +98,17 @@ def extract(answer, idx_to_label):
     return extracted_entities
 
 
-def readStandard():
-    standardXls = open_workbook(r"input/target/standard.xls")
-    standardSheet = standardXls.sheet_by_index(0)
-    standards = standardSheet.col_values(0)
-    return standards
+def readData(fileLoc):
+    dataXls = open_workbook(fileLoc)
+    dataSheet = dataXls.sheet_by_index(0)
+    data = dataSheet.col_values(0)
+    return data
 
 
 def main():
     os.remove("input/target/standardKeywords.json")
     stdKwdJsonFile = open("input/target/standardKeywords.json", "a")
-    standards = readStandard()
+    texts = readData("input/target/patent.xls")
 
     config = Config()
     with open(config.pkl_path, 'rb') as F:
@@ -118,11 +119,16 @@ def main():
     model = BilstmCrf(config).to(config.device)
     model.load_state_dict(torch.load(config.model_path))
 
-    for i in range(len(standards)):
-        if i % 1000 == 0 and i != 0:
+    for i in range(len(texts)):
+        if i % 100 == 0 and i != 0:
             print("current id is " + str(i))
         try:
-            nerSingle(model, config.SRC, config.LABEL, standards[i], stdKwdJsonFile, i)
+            # nerSingle(model, config.SRC, config.LABEL, texts[i], stdKwdJsonFile, i + 1)
+            text = texts[i]
+            splitText = re.split("[；，。]", text)
+            for sentence in splitText:
+                if 5 < len(sentence) < 50:
+                    nerSingle(model, config.SRC, config.LABEL, sentence, stdKwdJsonFile, i + 1)
         except TypeError:
             print("TypeErrorID: " + str(i))
             continue

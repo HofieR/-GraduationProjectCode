@@ -8,11 +8,11 @@ class Config:
         self.SRC = None
         self.LABEL = None
 
-        self.train_path = 'input/train/' + feaStr[1] + 'Train.json'
-        self.dev_path = 'input/train/' + feaStr[1] + 'Dev.json'
-        self.test_path = 'input/train/' + feaStr[1] + 'Test.json'
-        self.model_path = 'model/' + feaStr[1] + '.h5'
-        self.pkl_path = 'model/' + feaStr[1] + '.pkl'
+        self.train_path = 'input/train/' + feaStr[0] + 'Train.json'
+        self.dev_path = 'input/train/' + feaStr[0] + 'Dev.json'
+        self.test_path = 'input/train/' + feaStr[0] + 'Test.json'
+        self.model_path = 'model/' + feaStr[0] + '.h5'
+        self.pkl_path = 'model/' + feaStr[0] + '.pkl'
 
         self.fix_length = 50
         self.batch_size = 100
