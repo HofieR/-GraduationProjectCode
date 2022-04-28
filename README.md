@@ -1,5 +1,4 @@
 # -GraduationProjectCode
-tree：
         D:.
         ├─bert        #bert模型算法，仅作参考
         │  ├─.idea
