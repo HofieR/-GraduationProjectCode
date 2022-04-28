@@ -1,9 +1,9 @@
 # -GraduationProjectCode
 tree：
         D:.
-        ├─bert        #bert模型算法，仅作参考
-        │  ├─.idea
-        │  │  └─inspectionProfiles
+        ├─bert        #bert模型算法，仅作参考    \n
+        │  ├─.idea      \n
+        │  │  └─inspectionProfiles      \n
         │  └─simple_data
         ├─bilstm-crf  #bilstm-crf模型算法
         │  ├─input      #输入文件，包含训练集、验证集、测试集、预测数据等
